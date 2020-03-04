@@ -46,4 +46,25 @@ public class HomePresenter extends BasePresenter implements IHomeContert.IPresen
             }
         });
     }
+
+    @Override
+    public void initSousuo(String url) {
+        Log.i("ooo","P层");
+
+        model.getJson(url, new IHomeContert.IModel.Callback() {
+            @Override
+            public void getSuccess(String json) {
+                IBaseView view = getView();
+                if (view !=null && view instanceof IHomeContert.IView){
+                    IHomeContert.IView iView=(IHomeContert.IView) view;
+                    iView.getSousuo(json);
+                }
+            }
+
+            @Override
+            public void getErrey(String str) {
+
+            }
+        });
+    }
 }

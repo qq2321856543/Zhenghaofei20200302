@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.example.zhenghaofei20200302.base.BaseActivity;
 import com.example.zhenghaofei20200302.base.BasePresenter;
 import com.example.zhenghaofei20200302.bean.JsonBean;
 import com.example.zhenghaofei20200302.contert.IHomeContert;
+import com.example.zhenghaofei20200302.cusont.CusEditText;
 import com.example.zhenghaofei20200302.presenter.HomePresenter;
 import com.example.zhenghaofei20200302.utils.VolleyUtil;
 import com.google.gson.Gson;
@@ -38,6 +40,8 @@ public class MainActivity extends BaseActivity implements IHomeContert.IView {
     private RecyclerView rv2;
     private RecyclerView rv3;
     private ImageView iivv;
+    private CusEditText et;
+    private TextView sou;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -57,11 +61,13 @@ public class MainActivity extends BaseActivity implements IHomeContert.IView {
         rv2 = findViewById(R.id.rv2);
         rv3 = findViewById(R.id.rv3);
         iivv = findViewById(R.id.iivv);
+        et = findViewById(R.id.et);
+        sou = findViewById(R.id.sou);
     }
 
     @Override
     protected void initData() {
-        HomePresenter homePresenter = new HomePresenter(this);
+        final HomePresenter homePresenter = new HomePresenter(this);
         String url="http://blog.zhaoliang5156.cn/api/shop/jingdong.json";
 
         Boolean wifi = VolleyUtil.getVolley().isWifi(this);
@@ -79,6 +85,18 @@ public class MainActivity extends BaseActivity implements IHomeContert.IView {
 //        }else {
 //            Log.i("xxx","不");
 //        }
+
+
+        sou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "tusi", Toast.LENGTH_SHORT).show();
+                String string = et.getText().toString();
+                String path="http://mobile.bwstudent.com/small/commodity/v1/findCommodityByKeyword";
+                path+="?keyword="+string+"&page=1&count=4";
+                homePresenter.initSousuo(path);
+            }
+        });
     }
 
     @Override
@@ -112,5 +130,11 @@ public class MainActivity extends BaseActivity implements IHomeContert.IView {
     @Override
     public void getErrey(String str) {
         Log.i("xxx",""+str);
+    }
+
+    @Override
+    public void getSousuo(String json) {
+        Log.i("ooo",""+json);
+
     }
 }

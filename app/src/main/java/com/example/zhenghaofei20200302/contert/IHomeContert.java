@@ -9,9 +9,11 @@ public interface IHomeContert {
     interface IView extends IBaseView{
         void getSuccess(String json);
         void getErrey(String str);
+        void getSousuo(String json);
     }
     interface IPresenter{
         void initJson(String url);
+        void initSousuo(String url);
     }
     interface IModel{
         void getJson(String url,Callback callback);
